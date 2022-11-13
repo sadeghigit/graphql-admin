@@ -1,13 +1,26 @@
-import { Button } from 'antd';
+import 'antd/dist/antd.min.css';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 
-import 'antd/dist/antd.min.css';
+import DashoardRoute from './components/routes/dashboard-route';
+import AdminLayout from './components/layouts/admin-layout';
+import LoginRoute from './components/routes/login-route';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-root.render(<Button>Ok</Button>);
+root.render(
+  <BrowserRouter>
+    <Routes>
+      <Route element={<AdminLayout />} >
+        <Route path='/dashboard' element={<DashoardRoute />} />
+        <Route path='/login' element={<LoginRoute />} />
+      </Route>
+      <Route path="/" element={<Navigate to="/login" />} />
+    </Routes>
+  </BrowserRouter>
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
