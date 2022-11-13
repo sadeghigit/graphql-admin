@@ -2,11 +2,11 @@ import { ApolloProvider } from '@apollo/client';
 import { Layout } from 'antd';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
-import { authed } from '../../apollo-client';
+import { guest } from '../../apollo-client';
 
-const AdminLayout: FC = function () {
+const AuthLayout: FC = function () {
     return (
-        <ApolloProvider client={authed}>
+        <ApolloProvider client={guest}>
             <Layout style={{ height: "100vh" }}>
                 <Layout.Content style={{ padding: "24px" }}>
                     <Outlet />
@@ -16,4 +16,4 @@ const AdminLayout: FC = function () {
     )
 };
 
-export default AdminLayout;
+export default AuthLayout;

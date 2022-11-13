@@ -1,11 +1,11 @@
-import 'antd/dist/antd.min.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-
+import 'antd/dist/antd.min.css';
 import DashoardRoute from './components/routes/dashboard-route';
 import AdminLayout from './components/layouts/admin-layout';
 import LoginRoute from './components/routes/login-route';
+import AuthLayout from './components/layouts/auth-layout';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,9 +13,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Routes>
+      <Route element={<AuthLayout />} >
+        <Route path='/login' element={<LoginRoute />} />
+      </Route>
       <Route element={<AdminLayout />} >
         <Route path='/dashboard' element={<DashoardRoute />} />
-        <Route path='/login' element={<LoginRoute />} />
       </Route>
       <Route path="/" element={<Navigate to="/login" />} />
     </Routes>
