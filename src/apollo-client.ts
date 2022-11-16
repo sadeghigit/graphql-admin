@@ -3,6 +3,11 @@ import { TokenRefreshLink } from 'apollo-link-token-refresh';
 
 const url = 'http://127.0.0.1:3000/graphql'
 
+const AUTH_REFRESH_MUTATION = `
+mutation AuthRefreshMutation($refreshInput: RefreshInput!) {
+  authRefresh(refreshInput: $refreshInput) { accessToken expiresAt }}
+`;
+
 export const guest = new ApolloClient({
   uri: url,
   cache: new InMemoryCache(),
@@ -21,18 +26,10 @@ export const authed = new ApolloClient({
       fetchAccessToken() {
         return fetch(url, {
           method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            query: `
-              mutation {
-              authRefresh(authRefreshInput:{
-                refreshToken:"${localStorage.getItem('refreshToken')}"
-              }){accessToken expiresAt}
-             }
-              `
+            query: AUTH_REFRESH_MUTATION,
+            variables: { refreshToken: localStorage.getItem('refreshToken') }
           })
         });
       },
