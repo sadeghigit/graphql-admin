@@ -1,7 +1,6 @@
 import { Button, Modal } from 'antd';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as Icons from "@ant-design/icons"
 
 const LogoutAction: FC = function () {
   const navigate = useNavigate();
@@ -14,15 +13,12 @@ const LogoutAction: FC = function () {
         localStorage.removeItem('expiresAt')
         localStorage.removeItem('refreshToken')
         navigate('/login')
-       },
+      },
       okText: "Logout",
-      
     })
   }
 
-  return (
-    <Button onClick={onLogout} type='primary' danger>Logout</Button>
-  )
+  return <Button onClick={onLogout} type='primary' danger>Logout</Button>
 };
 
 export default LogoutAction;

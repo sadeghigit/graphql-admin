@@ -4,41 +4,37 @@ import { useForm } from 'antd/es/form/Form';
 import { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const AUTH_LOGIN_MUTATION = `
-mutation($loginInput: LoginInput!) {
-  authLogin(loginInput: $loginInput) {
-    accessToken
+const AUTH_RESET1_MUTATION = `
+mutation($reset1Input: Reset1Input!) {
+  authReset1(reset1Input: $reset1Input) {
     expiresAt
-    refreshToken
   }
 }
 `;
 
-export type Props = {}
+export type Props = {
+  onReset: (mobile: string, expiresAt: Date) => void
+}
 
-const LoginForm: FC<Props> = function (props) {
+const Reset1Form: FC<Props> = function (props) {
   const [form] = useForm()
   const navigate = useNavigate()
-  const [runLoginAction, loginAction] = useMutation(gql(AUTH_LOGIN_MUTATION), {
+  const [runReset1Action, reset1Action] = useMutation(gql(AUTH_RESET1_MUTATION), {
     onError() { notification.error({ message: "Error" }) }
   })
 
   function onFinish(data: any) {
-    console.log(data)
-    runLoginAction({
-      variables: { loginInput: data },
-      onCompleted(data) {
-        localStorage.setItem('accessToken', data.authLogin.accessToken)
-        localStorage.setItem('expiresAt', data.authLogin.expiresAt)
-        localStorage.setItem('refreshToken', data.authLogin.refreshToken)
-        navigate('/dashboard')
+    runReset1Action({
+      variables: { reset1Input: data },
+      onCompleted({ authReset1 }) {
+        props.onReset(data.mobile, new Date(authReset1.expiresAt))
       }
     })
   }
 
   return (
-    <Spin spinning={loginAction.loading}>
-      <h1>Login</h1>
+    <Spin spinning={reset1Action.loading}>
+      <h1>Reset Step 1</h1>
       <Form form={form} layout="vertical" onFinish={onFinish}>
         <Form.Item
           name={'mobile'}
@@ -50,19 +46,11 @@ const LoginForm: FC<Props> = function (props) {
         >
           <Input />
         </Form.Item>
-
-        <Form.Item
-          name={'password'}
-          label={"Password"}
-          rules={[{ required: true, message: "Password is required" }]}
-        >
-          <Input.Password />
-        </Form.Item>
-
+        
         <Divider style={{ margin: "30px 0 16px 0" }} />
 
         <Button htmlType='submit' type='primary' block>
-          Login
+          Send SMS
         </Button>
 
       </Form>
@@ -71,11 +59,11 @@ const LoginForm: FC<Props> = function (props) {
           <Link to={'/register'}>Register</Link>
         </Col>
         <Col flex={"none"}>
-          <Link to={'/reset'}>Reset Password</Link>
+          <Link to={'/login'}>Login</Link>
         </Col>
       </Row>
     </Spin>
   )
 };
 
-export default LoginForm;
+export default Reset1Form;

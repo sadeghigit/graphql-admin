@@ -4,8 +4,8 @@ import { TokenRefreshLink } from 'apollo-link-token-refresh';
 const url = 'http://127.0.0.1:3000/graphql'
 
 const AUTH_REFRESH_MUTATION = `
-mutation AuthRefreshMutation($refreshInput: RefreshInput!) {
-  authRefresh(refreshInput: $refreshInput) { accessToken expiresAt }}
+mutation AuthRefreshMutation($refreshToken: RefreshInput!) {
+  authRefresh(refreshToken: $refreshToken) { accessToken expiresAt }}
 `;
 
 export const guest = new ApolloClient({

@@ -3,7 +3,8 @@ import { Col, Layout, Row } from 'antd';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { authed } from '../../apollo-client';
-import LogoutAction from './logout-action';
+import AdminLogo from './admin-logo';
+import UserMenu from './user-menu';
 
 const AdminLayout: FC = function () {
     return (
@@ -12,16 +13,10 @@ const AdminLayout: FC = function () {
                 <Layout.Header style={{ padding: "0px 24px" }} >
                     <Row>
                         <Col flex={"auto"}>
-                            <div style={{
-                                margin: "16px 0px",
-                                display: "inline-block",
-                                height: "32px",
-                                width: "200px",
-                                background: "#dddddd88"
-                            }} />
+                            <AdminLogo />
                         </Col>
                         <Col flex={'none'}>
-                            <LogoutAction />
+                            <UserMenu />
                         </Col>
                     </Row>
                 </Layout.Header>
