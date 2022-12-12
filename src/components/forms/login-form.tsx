@@ -45,7 +45,7 @@ const LoginForm: FC<Props> = function (props) {
           label="Mobile"
           rules={[
             { required: true, message: "Mobile is required" },
-            { pattern: /^09[0-9]{9}$/, message: "Mobile format is required" }
+            { pattern: /^09[0-9]{9}$/, message: "Mobile format is invalid" }
           ]}
         >
           <Input />
@@ -64,7 +64,6 @@ const LoginForm: FC<Props> = function (props) {
         <Button htmlType='submit' type='primary' block>
           Login
         </Button>
-
       </Form>
       <Row style={{ padding: "10px 0 0 0" }}>
         <Col flex={"auto"}>

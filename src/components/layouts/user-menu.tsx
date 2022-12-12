@@ -61,13 +61,7 @@ const UserMenu: FC = function () {
         extra={[
           <LogoutAction key={'logout'} />,
         ]}
-      >
-        <div style={{ height: "calc(100% - 340px)" }}></div>
-        <Calendar
-          fullscreen={false}
-
-        />
-
+      >    
       </Drawer>
     </div>
   )

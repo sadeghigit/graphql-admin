@@ -38,8 +38,6 @@ const ProfileForm: FC<Props> = function (props) {
     })
   }, [])
 
-
-
   function onSave(data: any) {
     runUpdateProfileMutation({
       variables: { updateProfileInput: data },
@@ -65,8 +63,6 @@ const ProfileForm: FC<Props> = function (props) {
         >
           <Input />
         </Form.Item>
-
-
 
         <Divider
           style={{

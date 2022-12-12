@@ -2,7 +2,6 @@ import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import { Button, Col, Divider, Form, Input, notification, Row, Spin } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { FC, useEffect } from 'react';
-import RoleSelect from './inputs/role-select';
 
 const CHANGE_PASSWORD_MUTATION = `
 mutation($updatePasswordInput: UpdatePasswordInput!) {

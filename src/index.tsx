@@ -9,6 +9,7 @@ import AuthLayout from './components/layouts/auth-layout';
 import UsersRoute from './components/routes/users-route';
 import RegisterRoute from './components/routes/register-route';
 import ResetRoute from './components/routes/reset-route';
+import ProfileRoute from './components/routes/profile-route';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,13 +18,14 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route element={<AuthLayout />} >
-      <Route path='/login' element={<LoginRoute />} />
-      <Route path='/register' element={<RegisterRoute />} />
-      <Route path='/reset' element={<ResetRoute />} />
+        <Route path='/login' element={<LoginRoute />} />
+        <Route path='/register' element={<RegisterRoute />} />
+        <Route path='/reset' element={<ResetRoute />} />
       </Route>
       <Route element={<AdminLayout />} >
-      <Route path='/dashboard' element={<DashoardRoute />} />
-      <Route path='/users' element={<UsersRoute />} />
+        <Route path='/dashboard' element={<DashoardRoute />} />
+        <Route path='/users' element={<UsersRoute />} />
+        <Route path='/profile' element={<ProfileRoute />} />
       </Route>
       <Route path="/" element={<Navigate to="/login" />} />
     </Routes>

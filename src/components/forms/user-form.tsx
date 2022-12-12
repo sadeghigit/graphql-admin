@@ -102,7 +102,7 @@ const UserForm: FC<Props> = function (props) {
               label="Mobile"
               rules={[
                 { required: true, message: "Mobile is required" },
-                { pattern: /^09[0-9]{9}$/, message: "Mobile format is required" }
+                { pattern: /^09[0-9]{9}$/, message: "Mobile format is invalid" }
               ]}
             >
               <Input />
