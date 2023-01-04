@@ -1,13 +1,16 @@
 import { ApolloClient, InMemoryCache, ApolloLink, Operation, HttpLink } from '@apollo/client';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
+import { createUploadLink } from "apollo-upload-client";
 
 const url = 'http://127.0.0.1:3000/graphql'
+
+export const apiUrl = "http://127.0.0.1:3000/"
 
 const AUTH_REFRESH_MUTATION = `
 mutation AuthRefreshMutation($refreshToken: RefreshInput!) {
   authRefresh(refreshToken: $refreshToken) { accessToken expiresAt }}
-`;
-
+  `;
+  
 export const guest = new ApolloClient({
   uri: url,
   cache: new InMemoryCache(),
@@ -51,6 +54,7 @@ export const authed = new ApolloClient({
       });
       return forward(operation);
     }),
+    createUploadLink({ uri: url }),
     new HttpLink({ uri: url }),
   ]),
   cache: new InMemoryCache(),

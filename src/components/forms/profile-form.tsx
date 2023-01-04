@@ -1,7 +1,10 @@
 import { gql, useLazyQuery, useMutation } from '@apollo/client';
-import { Button, Divider, Form, Input, notification, Spin } from 'antd';
+import { Button, Divider, Form, Input, notification, Spin, Upload, UploadFile } from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
+import *  as Icons from '@ant-design/icons';
+import type { UploadRequestOption } from 'rc-upload/lib/interface';
+import { apiUrl } from '../../apollo-client';
 
 const UPDATE_PROFILE_MUTATION = `
 mutation($updateProfileInput: UpdateProfileInput!) {
@@ -17,11 +20,22 @@ const LOAD_FORM_QUERY = `
  }
 `
 
+const UPLOAD_MUTATION = `
+mutation($uploadinput: UploadInput!) {
+  upload(uploadInput: $uploadinput) {
+    link
+  }
+}
+`;
+
+
 export type Props = {
   onSave: () => void
 }
 
 const ProfileForm: FC<Props> = function (props) {
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+
   const [form] = useForm()
 
   const [runUpdateProfileMutation, updateProfileMutation] = useMutation(gql(UPDATE_PROFILE_MUTATION), {
@@ -29,6 +43,10 @@ const ProfileForm: FC<Props> = function (props) {
   })
 
   const [runLoadFormQuery, loadFormQuery] = useLazyQuery(gql(LOAD_FORM_QUERY), {
+    onError() { notification.error({ message: "Error" }) }
+  })
+
+  const [runUploadMutation, uploadMutation] = useMutation(gql(UPLOAD_MUTATION), {
     onError() { notification.error({ message: "Error" }) }
   })
 
@@ -42,6 +60,21 @@ const ProfileForm: FC<Props> = function (props) {
     runUpdateProfileMutation({
       variables: { updateProfileInput: data },
       onCompleted(data) { props.onSave() }
+    })
+  }
+
+  function uploadRequest(options: UploadRequestOption) {
+    runUploadMutation({
+      variables: { uploadinput: { file: options.file } },
+      onCompleted(data) {
+        setFileList([...fileList, {
+          uid: data.upload.link,
+          name: data.upload.link,
+          status: 'done',
+          url: apiUrl+data.upload.link,
+        }])
+        if (options.onSuccess) options.onSuccess(data.upload)
+      }
     })
   }
 
@@ -64,11 +97,21 @@ const ProfileForm: FC<Props> = function (props) {
           <Input />
         </Form.Item>
 
-        <Divider
-          style={{
-            margin: "30px 0 16px 0"
-          }}
-        />
+        {/* <Form.Item
+          name={'avatar'}
+          label="Avatar"
+        >
+       
+        </Form.Item> */}
+        <Upload
+          name='file'
+          customRequest={uploadRequest}
+          defaultFileList={[]}
+          fileList={fileList}
+        >
+          <Button icon={<Icons.UploadOutlined />}>Click to Upload</Button>
+        </Upload>
+        <Divider style={{ margin: "30px 0 16px 0" }} />
         <Button
           htmlType='submit'
           type='primary'

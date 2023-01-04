@@ -68,7 +68,7 @@ const DateFilter: FC<FilterDropdownProps> = function (props) {
           onClick={onOk}
           size="small"
         >
-          Ok+
+          Ok
         </Button>
       </div>
     </div>
